@@ -1,3 +1,10 @@
+"use client";
+
+import Tasks from "./components/tasks";
+import { useGlobalState } from "./context/globalProvider";
+
 export default function Home() {
-  return <div className="">Hi</div>;
+  const { tasks } = useGlobalState();
+
+  return <Tasks tasks={tasks} />;
 }
