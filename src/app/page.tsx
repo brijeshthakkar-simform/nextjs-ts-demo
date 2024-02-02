@@ -6,5 +6,9 @@ import { useGlobalState } from "./context/globalProvider";
 export default function Home() {
   const { tasks } = useGlobalState();
 
-  return <Tasks tasks={tasks} />;
+  return (
+    <div className="global-styles">
+      <Tasks tasks={tasks} />
+    </div>
+  );
 }

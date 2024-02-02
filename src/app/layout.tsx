@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import NextTopLoader from "nextjs-toploader";
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">

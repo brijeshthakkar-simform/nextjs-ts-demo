@@ -1,18 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { ReactNode } from "react";
 import { Toaster } from "sonner";
 
 import { GlobalProvider } from "../context/globalProvider";
 
 interface ContextProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 function ContextProvider({ children }: ContextProviderProps) {
   return (
     <GlobalProvider>
-      <Toaster />
+      <Toaster richColors position="top-center" />
       {children}
     </GlobalProvider>
   );
