@@ -76,7 +76,7 @@ function CreateContent() {
           value={title}
           name="title"
           onChange={handleChange("title")}
-          placeholder="e.g, Watch a video from Fireship."
+          placeholder="Enter a title for the task"
           className="w-full p-4 bg-gray-800 text-gray-700 rounded"
         />
       </div>
@@ -90,7 +90,7 @@ function CreateContent() {
           name="description"
           id="description"
           rows={4}
-          placeholder="e.g, Watch a video about Next.js Auth"
+          placeholder="Enter a description for the task"
           className="w-full p-4 bg-gray-800 text-gray-700 rounded"
         ></textarea>
       </div>
@@ -108,7 +108,7 @@ function CreateContent() {
         />
       </div>
       <div className="toggler input-control flex items-center justify-between mt-6 md:mt-4 cursor-pointer">
-        <label htmlFor="completed" className="flex-1 text-gray-300">
+        <label htmlFor="completed" className="flex-1">
           is Completed ?
         </label>
         <input
@@ -117,6 +117,7 @@ function CreateContent() {
           type="checkbox"
           name="completed"
           id="completed"
+          className="accent-colorGreenDark"
         />
       </div>
 

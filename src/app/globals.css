@@ -37,9 +37,9 @@
     @apply flex-1;
   }
 
-  input {
+  /* input {
     @apply appearance-none;
-  }
+  } */
 }
 
 :root {
@@ -79,7 +79,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 input[type="checkbox"] {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1rem;
+  height: 1rem;
   cursor: pointer;
 }
