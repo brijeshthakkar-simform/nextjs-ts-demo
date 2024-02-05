@@ -1,49 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useGlobalState } from "@/app/context/globalProvider";
 import Button from "../button";
 
+interface CreateTask {
+  title: string;
+  description: string;
+  date: string;
+  completed: boolean;
+}
+
 function CreateContent() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
-  const [completed, setCompleted] = useState(false);
-
   const { allTasks, closeModal } = useGlobalState();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateTask>();
 
-  const handleChange = (name: string) => (e: any) => {
-    switch (name) {
-      case "title":
-        setTitle(e.target.value);
-        break;
-      case "description":
-        setDescription(e.target.value);
-        break;
-      case "date":
-        setDate(e.target.value);
-        break;
-      case "completed":
-        setCompleted(e.target.checked);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    const task = {
-      title,
-      description,
-      date,
-      completed,
-    };
-
+  const onSubmit: SubmitHandler<CreateTask> = async (data) => {
     try {
-      const res = await axios.post("/api/tasks", task);
+      const res = await axios.post("/api/tasks", data);
 
       if (res.data.error) {
         toast.error(res.data.error);
@@ -62,7 +42,7 @@ function CreateContent() {
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       className={`text-colorGrey1 p-6 rounded bg-gray-900`}
     >
       <h1 className="text-2xl font-semibold mb-4">Create a Task</h1>
@@ -73,51 +53,72 @@ function CreateContent() {
         <input
           type="text"
           id="title"
-          value={title}
-          name="title"
-          onChange={handleChange("title")}
           placeholder="Enter a title for the task"
           className="w-full p-4 bg-gray-800 text-gray-700 rounded"
+          {...register("title", {
+            required: "This field is required",
+            minLength: {
+              value: 3,
+              message: "Title must be at least 3 characters",
+            },
+          })}
         />
+        {errors.title && (
+          <span className="text-colorDanger text-sm mt-2 inline-block">
+            {errors.title.message}
+          </span>
+        )}
       </div>
       <div className="input-control mt-6 md:mt-4 font-medium">
         <label htmlFor="description" className="block text-sm md:text-lg mb-2">
           Description
         </label>
         <textarea
-          value={description}
-          onChange={handleChange("description")}
-          name="description"
           id="description"
           rows={4}
           placeholder="Enter a description for the task"
           className="w-full p-4 bg-gray-800 text-gray-700 rounded"
+          {...register("description", {
+            required: "This field is required",
+            minLength: {
+              value: 5,
+              message: "Description must be at least 5 characters",
+            },
+          })}
         ></textarea>
+        {errors.description && (
+          <span className="text-colorDanger text-sm mt-2 inline-block">
+            {errors.description.message}
+          </span>
+        )}
       </div>
       <div className="input-control mt-6 md:mt-4 font-medium">
         <label htmlFor="date" className="block text-sm md:text-lg mb-2">
           Date
         </label>
         <input
-          value={date}
-          onChange={handleChange("date")}
           type="date"
-          name="date"
           id="date"
           className="w-full p-4 bg-gray-800 text-gray-700 rounded"
+          {...register("date", {
+            required: "This field is required",
+          })}
         />
+        {errors.date && (
+          <span className="text-colorDanger text-sm mt-2 inline-block">
+            {errors.date.message}
+          </span>
+        )}
       </div>
       <div className="toggler input-control flex items-center justify-between mt-6 md:mt-4 cursor-pointer">
         <label htmlFor="completed" className="flex-1">
           is Completed ?
         </label>
         <input
-          value={completed.toString()}
-          onChange={handleChange("completed")}
           type="checkbox"
-          name="completed"
           id="completed"
           className="accent-colorGreenDark"
+          {...register("completed")}
         />
       </div>
 
