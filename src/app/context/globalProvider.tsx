@@ -18,7 +18,7 @@ type GlobalContextProps = {
   isLoading: boolean;
   completedTasks: Task[];
   incompleteTasks: Task[];
-  updateTask: (task: Task) => Promise<void>;
+  updateTask: (task: Partial<Task>) => Promise<void>;
   modal: boolean;
   openModal: () => void;
   closeModal: () => void;
@@ -72,7 +72,7 @@ export const GlobalProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   };
 
-  const updateTask = async (task: Task) => {
+  const updateTask = async (task: Partial<Task>) => {
     try {
       await axios.put(`/api/tasks`, task);
       toast.success("Task updated");

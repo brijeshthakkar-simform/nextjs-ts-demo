@@ -44,9 +44,7 @@ function TaskItem({
           </button>
         )}
 
-        <button className="edit ml-auto">Edit</button>
-
-        <button className="delete" onClick={() => deleteTask(id)}>
+        <button className="delete ml-auto" onClick={() => deleteTask(id)}>
           Delete
         </button>
       </div>
