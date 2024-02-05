@@ -77,7 +77,7 @@ function CreateContent() {
           id="description"
           rows={4}
           placeholder="Enter a description for the task"
-          className="w-full p-4 bg-gray-800 text-gray-700 rounded"
+          className="w-full p-4 bg-colorGreyDark text-colorGrey2 rounded"
           {...register("description", {
             required: "This field is required",
             minLength: {
