@@ -1,17 +1,39 @@
 "use client";
 
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  ReactNode,
+  FC,
+} from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import { Task } from "@prisma/client";
 
-export const GlobalContext = createContext();
+type GlobalContextProps = {
+  tasks: Task[];
+  deleteTask: (id: string) => Promise<void>;
+  isLoading: boolean;
+  completedTasks: Task[];
+  incompleteTasks: Task[];
+  updateTask: (task: Task) => Promise<void>;
+  modal: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+  allTasks: () => Promise<void>;
+  collapsed: boolean;
+  collapseMenu: () => void;
+} | null;
 
-export const GlobalProvider = ({ children }) => {
+export const GlobalContext = createContext<GlobalContextProps>(null);
+
+export const GlobalProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [modal, setModal] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
     allTasks();
@@ -33,27 +55,24 @@ export const GlobalProvider = ({ children }) => {
     setIsLoading(true);
     try {
       const res = await axios.get("/api/tasks");
-
       setTasks(res.data);
-
       setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const deleteTask = async (id) => {
+  const deleteTask = async (id: string) => {
     try {
       await axios.delete(`/api/tasks/${id}`);
       toast.success("Task deleted");
-
       allTasks();
     } catch (error) {
       toast.error("Something went wrong");
     }
   };
 
-  const updateTask = async (task) => {
+  const updateTask = async (task: Task) => {
     try {
       await axios.put(`/api/tasks`, task);
       toast.success("Task updated");
@@ -88,4 +107,10 @@ export const GlobalProvider = ({ children }) => {
   );
 };
 
-export const useGlobalState = () => useContext(GlobalContext);
+export const useGlobalState = () => {
+  const context = useContext(GlobalContext);
+  if (!context) {
+    throw new Error("useGlobalState must be used within a GlobalProvider");
+  }
+  return context;
+};
