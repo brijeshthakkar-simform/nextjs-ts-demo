@@ -14,7 +14,7 @@ function Tasks({ tasks }: TasksProps) {
 
   return (
     <main
-      className={`relative p-8 w-full bg-colorBg2 border-2 border-borderColor2 rounded-lg h-full overflow-y-auto
+      className={`relative p-8 w-full bg-colorBg2 border-2 border-borderColor2 rounded-lg h-full overflow-y-auto max-w-screen-2xl mx-auto
       `}
     >
       {modal && <Modal content={<CreateContent />} />}
@@ -23,13 +23,6 @@ function Tasks({ tasks }: TasksProps) {
       >
         All Tasks
       </h1>
-
-      <button
-        onClick={openModal}
-        className={`fixed top-4.9 right-5.1 w-12 h-12 rounded-full bg-colorBg border-2 border-borderColor2 shadow-md text-colorGrey2 text-lg flex items-center justify-center transition-all duration-300 hover:bg-colorGrey5 hover:text-colorGrey0 sm:top-3 sm:right-3.5`}
-      >
-        +
-      </button>
 
       <div className="tasks my-8 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {tasks.map((task) => (

@@ -11,6 +11,7 @@ import React, {
 import axios from "axios";
 import { toast } from "sonner";
 import { Task } from "@prisma/client";
+import { useUser } from "@clerk/nextjs";
 
 type GlobalContextProps = {
   tasks: Task[];
@@ -34,10 +35,13 @@ export const GlobalProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [modal, setModal] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const { user } = useUser();
 
   useEffect(() => {
-    allTasks();
-  }, []);
+    if (user) {
+      allTasks();
+    }
+  }, [user]);
 
   const openModal = () => {
     setModal(true);
@@ -82,8 +86,8 @@ export const GlobalProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   };
 
-  const completedTasks = tasks.filter((task) => task.isCompleted);
-  const incompleteTasks = tasks.filter((task) => task.isCompleted === false);
+  const completedTasks = tasks?.filter((task) => task.isCompleted);
+  const incompleteTasks = tasks?.filter((task) => task.isCompleted === false);
 
   return (
     <GlobalContext.Provider

@@ -2,9 +2,12 @@ import { ReactNode } from "react";
 import NextTopLoader from "nextjs-toploader";
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 
 import "./globals.css";
 import ContextProvider from "./providers/ContextProvider";
+import Navbar from "./components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,10 +24,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextTopLoader height={2} color="#000" />
-        <ContextProvider>
-          <div className="w-full">{children}</div>
-        </ContextProvider>
+        <NextTopLoader height={2} color="#fff" />
+        <ClerkProvider
+          appearance={{
+            baseTheme: dark,
+          }}
+        >
+          <ContextProvider>
+            <div className="w-full">
+              <Navbar />
+              {children}
+            </div>
+          </ContextProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
